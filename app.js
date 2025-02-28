@@ -39,4 +39,4 @@ app.use((req, res, next) => {
 app.use('/', indexRouter);
 app.use('/', authRouter);
 
-app.listen(4000, () => console.log('app listening on port 4000!'));
+app.listen(3000, () => console.log('app listening on port 3000!'));

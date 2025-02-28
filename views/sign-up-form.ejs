@@ -7,32 +7,49 @@
   </head>
   <body>
     <main>
-      <% if(locals.message){ %>
-      <p><%= locals.message %></p>
-      <% } %>
+      <div>
+        <ul>
+          <% if(typeof messages !== 'undefined' && Array.isArray(messages) &&
+          messages.length) {%> <% messages.forEach(message => { %>
+          <li><%= message %></li>
+          <%}); }%>
+        </ul>
+      </div>
       <form action="/sign-up" method="post">
         <label for="firstName"
           >First name
-          <input type="text" name="firstName" id="firstName" />
+          <input
+            type="text"
+            name="firstName"
+            id="firstName"
+            value="<%- user?.firstName %>"
+          />
         </label>
         <label for="lastName"
           >Last name
-          <input type="text" name="lastName" id="lastName" />
+          <input
+            type="text"
+            name="lastName"
+            id="lastName"
+            value="<%- user?.lastName %>"
+          />
         </label>
         <label for="username"
           >Username
-          <input type="text" name="username" id="username" />
+          <input
+            type="text"
+            name="username"
+            id="username"
+            value="<%- user?.username %>"
+          />
         </label>
         <label for="password"
           >Password
-          <input type="password" name="password" id="password" /> </label
-        >Repeated password
+          <input type="password" name="password" id="password" />
+        </label>
+        >Confirm password
         <label for="repeatedPassword">
-          <input
-            type="password"
-            name="repeatedPassword"
-            id="repeatedPassword"
-          />
+          <input type="password" name="repeatedPassword" />
         </label>
         <input type="submit" value="SIGN UP" />
       </form>

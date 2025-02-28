@@ -6,9 +6,14 @@
     <title>Members Only</title>
   </head>
   <body>
-    <% if(locals.message){ %>
-    <p><%= locals.message %></p>
-    <% } %>
+    <div>
+      <ul>
+        <% if(typeof messages !== 'undefined' && Array.isArray(messages) &&
+        messages.length) {%> <% messages.forEach(message => { %>
+        <li><%= message %></li>
+        <%}); }%>
+      </ul>
+    </div>
     <form action="" method="post">
       <label for="username"
         >Username
