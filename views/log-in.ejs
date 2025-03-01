@@ -6,24 +6,28 @@
     <title>Members Only</title>
   </head>
   <body>
-    <div>
-      <ul>
-        <% if(typeof messages !== 'undefined' && Array.isArray(messages) &&
-        messages.length) {%> <% messages.forEach(message => { %>
-        <li><%= message %></li>
-        <%}); }%>
-      </ul>
-    </div>
-    <form action="" method="post">
-      <label for="username"
-        >Username
-        <input type="text" name="username" id="username" />
-      </label>
-      <label for="password"
-        >Password
-        <input type="password" name="password" id="password" />
-      </label>
-      <input type="submit" value="LOG IN" />
-    </form>
+    <main>
+      <h2>Log in</h2>
+      <div>
+        <ul>
+          <% if(typeof errors !== 'undefined' && Array.isArray(errors) &&
+          errors.length) {%> <% errors.forEach(error => { %>
+          <li><%= error %></li>
+          <%}); }%>
+        </ul>
+      </div>
+      <form action="" method="post">
+        <label for="username"
+          >Username
+          <input type="text" name="username" id="username" />
+        </label>
+        <label for="password"
+          >Password
+          <input type="password" name="password" id="password" />
+        </label>
+        <input type="submit" value="LOG IN" />
+      </form>
+      <p>Don't have an account? <a href="/sign-up">Sign up here</a></p>
+    </main>
   </body>
 </html>

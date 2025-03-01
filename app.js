@@ -6,7 +6,6 @@ require('./config/passport');
 require('dotenv').config();
 
 const indexRouter = require('./routes/indexRouter');
-const authRouter = require('./routes/authRouter');
 const passport = require('passport');
 const { pool } = require('./config/db');
 
@@ -40,6 +39,13 @@ app.use((req, res, next) => {
 });
 
 app.use('/', indexRouter);
-app.use('/', authRouter);
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(err.statusCode || 500);
+  res.render('error', {
+    message: `Error`,
+  });
+});
 
 app.listen(3000, () => console.log('app listening on port 3000!'));

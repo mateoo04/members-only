@@ -1,20 +1,22 @@
 const { Router } = require('express');
+
 const { verifyCode } = require('../controllers/userController');
+const { isAuth } = require('../middlewares/authMiddleware');
+const authRouter = require('../routes/authRouter');
+const messageRouter = require('../routes/messageRouter');
 
 const indexRouter = Router();
 
-indexRouter.get('/', (req, res) => res.render('index'));
+indexRouter.use('/', authRouter);
 
-indexRouter.get('/sign-up', (req, res) => res.render('sign-up'));
+indexRouter.use('/message', messageRouter);
 
-indexRouter.get('/log-in', (req, res) =>
-  res.render('log-in', { messages: [...new Set(req.session?.messages)] })
-);
-
-indexRouter.get('/join-the-club', (req, res) =>
+indexRouter.get('/join-the-club', isAuth, (req, res) =>
   res.render('code-verification')
 );
 
 indexRouter.post('/verify-secret-code', verifyCode);
+
+indexRouter.use('/', (req, res, next) => res.redirect('/message/'));
 
 module.exports = indexRouter;

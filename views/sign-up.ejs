@@ -7,11 +7,12 @@
   </head>
   <body>
     <main>
+      <h2>Sign up</h2>
       <div>
         <ul>
-          <% if(typeof messages !== 'undefined' && Array.isArray(messages) &&
-          messages.length) {%> <% messages.forEach(message => { %>
-          <li><%= message %></li>
+          <% if(typeof errors !== 'undefined' && Array.isArray(errors) &&
+          errors.length) {%> <% errors.forEach(error => { %>
+          <li><%= error %></li>
           <%}); }%>
         </ul>
       </div>
@@ -47,12 +48,13 @@
           >Password
           <input type="password" name="password" id="password" />
         </label>
-        >Confirm password
+        Confirm password
         <label for="confirmPassword">
           <input type="password" name="confirmPassword" />
         </label>
         <input type="submit" value="SIGN UP" />
       </form>
+      <p>Already have an account? <a href="/log-in">Log in here</a></p>
     </main>
   </body>
 </html>

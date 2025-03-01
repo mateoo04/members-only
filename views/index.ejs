@@ -6,13 +6,24 @@
     <title>Members Only</title>
   </head>
   <body>
-    <h1>
-      <%- locals.user ? `Welcome, ${user.firstName} ${user.lastName}!` :
-      'Welcome!' %>
-    </h1>
-    <a href="/join-the-club">JOIN THE CLUB</a>
-    <form action="/log-out" method="post">
-      <button type="submit">LOG OUT</button>
-    </form>
+    <main>
+      <h2>
+        <%- locals.user ? `Welcome, ${user.firstName} ${user.lastName}!` :
+        'Welcome!' %>
+      </h2>
+      <a href="/join-the-club">JOIN THE CLUB</a>
+      <form action="/log-out" method="post">
+        <button type="submit">LOG OUT</button>
+      </form>
+      <div>
+        <% if(typeof messages !== 'undefined' && messages?.length){
+        messages.forEach(message => {%>
+        <div>
+          <h3><%= message.title%></h3>
+          <p><%= message.content %></p>
+        </div>
+        <%});}%>
+      </div>
+    </main>
   </body>
 </html>

@@ -74,7 +74,7 @@ async function signUp(req, res, next) {
 
   if (!errors.isEmpty()) {
     return res.render('sign-up', {
-      messages: errors.array().map((error) => error.msg),
+      errors: errors.array().map((error) => error.msg),
       user: req.body,
     });
   }
@@ -95,7 +95,7 @@ async function signUp(req, res, next) {
     );
 
     if (!result) {
-      res.render('sign-up', { messages: ['Existing username entered'] });
+      res.render('sign-up', { errors: ['Existing username entered'] });
     } else {
       const user = new User({
         ...result.rows.at(0),

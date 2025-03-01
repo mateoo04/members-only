@@ -3,8 +3,15 @@ const { body, validationResult } = require('express-validator');
 const passport = require('passport');
 
 const { signUp, validateSignUp } = require('../controllers/userController');
+const { isAuth, isNotAuth } = require('../middlewares/authMiddleware');
 
 const authRouter = Router();
+
+authRouter.get('/sign-up', isNotAuth, (req, res) => res.render('sign-up'));
+
+authRouter.get('/log-in', isNotAuth, (req, res) =>
+  res.render('log-in', { errors: [...new Set(req.session?.messages)] })
+);
 
 authRouter.post('/sign-up', validateSignUp, signUp);
 
