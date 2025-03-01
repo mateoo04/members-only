@@ -34,7 +34,7 @@ authRouter.post(
 
     if (!errors.isEmpty())
       return res.render('log-in', {
-        messages: errors.array().map((error) => error.msg),
+        errors: errors.array().map((error) => error.msg),
       });
 
     next();

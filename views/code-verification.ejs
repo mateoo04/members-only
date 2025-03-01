@@ -8,11 +8,11 @@
   <body>
     <main>
       <p>
-        <%- user?.isExclusive ? 'You are an exclusive member.' : `You are not an
-        exclusive member.` %>
-      </p>
-      <p>
-        <%- user?.isAdmin ? 'You are an admin.' : 'You are not an admin.' %>
+        <%if(user?.isAdmin){%>
+          <p>You are an admin.</p>
+        <%}else if(user?.isExclusive){%>
+          <p>You are an exclusive member.</p>
+          <% } %>
       </p>
       <form action="/verify-secret-code" method="post">
         <legend>

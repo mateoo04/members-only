@@ -2,6 +2,7 @@ const path = require('node:path');
 const express = require('express');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
+const methodOverride = require('method-override');
 require('./config/passport');
 require('dotenv').config();
 
@@ -10,10 +11,13 @@ const passport = require('passport');
 const { pool } = require('./config/db');
 
 const app = express();
+const port = process.env.PORT || 4000;
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 
 app.use(
   session({
@@ -48,4 +52,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(3000, () => console.log('app listening on port 3000!'));
+app.listen(port, () =>
+  console.log(`Server running - listening on port ${port}`)
+);

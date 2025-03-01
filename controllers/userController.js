@@ -1,13 +1,8 @@
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator');
 
-const passport = require('passport');
-const User = require('../models/user');
-const {
-  createUser,
-  updateAdminStatus,
-  updateExclusiveStatus,
-} = require('../services/userService');
+const Member = require('../models/member');
+const { createUser, updateStatus } = require('../services/userService');
 
 const validateSignUp = [
   body('firstName')
@@ -83,8 +78,8 @@ async function signUp(req, res, next) {
     const { firstName, lastName, username, password } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const result = createUser(
-      new User({
+    const result = await createUser(
+      new Member({
         firstName,
         lastName,
         username,
@@ -97,7 +92,7 @@ async function signUp(req, res, next) {
     if (!result) {
       res.render('sign-up', { errors: ['Existing username entered'] });
     } else {
-      const user = new User({
+      const user = new Member({
         ...result.rows.at(0),
         firstName: result.rows.at(0).first_name,
         lastName: result.rows.at(0).last_name,
@@ -119,9 +114,9 @@ async function verifyCode(req, res, next) {
   const code = req.body.code;
 
   if (code === process.env.EXCLUSIVE_CODE)
-    updateExclusiveStatus({ ...res.locals.user, isExclusive: true });
+    updateStatus({ ...res.locals.user, isExclusive: true });
   else if (code === process.env.ADMIN_CODE)
-    updateAdminStatus({ ...res.locals.user, isAdmin: true });
+    updateStatus({ ...res.locals.user, isAdmin: true, isExclusive: true });
 
   res.redirect('/join-the-club');
 }

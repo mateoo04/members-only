@@ -1,5 +1,5 @@
 const { pool } = require('../config/db');
-const User = require('../models/user');
+const Member = require('../models/member');
 
 async function createUser(user) {
   return await pool.query(
@@ -9,7 +9,7 @@ async function createUser(user) {
       user.firstName,
       user.lastName,
       user.username,
-      user.hashedPassword,
+      user.password,
       user.isExclusive || false,
       user.isAdmin || false,
     ]
@@ -24,7 +24,7 @@ async function getUserByUsername(username) {
 
   if (!rows.length) return null;
 
-  return new User({
+  return new Member({
     ...rows.at(0),
     firstName: rows.at(0).first_name,
     lastName: rows.at(0).last_name,
@@ -41,7 +41,7 @@ async function getUserById(id) {
 
   if (!rows.length) return null;
 
-  return new User({
+  return new Member({
     ...rows.at(0),
     firstName: rows.at(0).first_name,
     lastName: rows.at(0).last_name,
@@ -50,24 +50,16 @@ async function getUserById(id) {
   });
 }
 
-async function updateExclusiveStatus(user) {
+async function updateStatus(user) {
   await pool.query(
-    `UPDATE clubhouse_member SET is_exclusive = $1 WHERE id = $2`,
-    [user.isExclusive, user.id]
+    `UPDATE clubhouse_member SET is_exclusive = $1, is_admin = $2 WHERE id = $3`,
+    [user.isExclusive, user.isAdmin, user.id]
   );
-}
-
-async function updateAdminStatus(user) {
-  await pool.query(`UPDATE clubhouse_member SET is_admin = $1 WHERE id = $2`, [
-    user.isAdmin,
-    user.id,
-  ]);
 }
 
 module.exports = {
   createUser,
   getUserByUsername,
   getUserById,
-  updateExclusiveStatus,
-  updateAdminStatus,
+  updateStatus,
 };

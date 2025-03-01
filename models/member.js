@@ -1,10 +1,10 @@
-module.exports = class User {
+module.exports = class Member {
   constructor({
     id = null,
     firstName,
     lastName,
     username,
-    password,
+    password = null,
     isExclusive,
     isAdmin,
   }) {
