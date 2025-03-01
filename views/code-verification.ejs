@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Members Only</title>
+  </head>
+  <body>
+    <main>
+      <p>
+        <%- user?.isExclusive ? 'You are an exclusive member.' : `You are not an
+        exclusive member.` %>
+      </p>
+      <p>
+        <%- user?.isAdmin ? 'You are an admin.' : 'You are not an admin.' %>
+      </p>
+      <form action="/verify-secret-code" method="post">
+        <legend>
+          Enter the secret code to become an exclusive member or an admin.
+        </legend>
+        <input type="text" id="code" name="code" />
+        <input type="submit" value="VERIFY" />
+      </form>
+    </main>
+  </body>
+</html>

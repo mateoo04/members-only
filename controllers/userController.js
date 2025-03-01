@@ -2,8 +2,12 @@ const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator');
 
 const passport = require('passport');
-const { pool } = require('../config/db');
 const User = require('../models/user');
+const {
+  createUser,
+  updateAdminStatus,
+  updateExclusiveStatus,
+} = require('../services/userService');
 
 const validateSignUp = [
   body('firstName')
@@ -52,7 +56,7 @@ const validateSignUp = [
     .isLength({ min: 6 })
     .withMessage('Password must be at least 6 characters long')
     .escape(),
-  body('repeatedPassword')
+  body('confirmPassword')
     .trim()
     .notEmpty()
     .withMessage('Confirm password is required')
@@ -69,32 +73,29 @@ async function signUp(req, res, next) {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.render('sign-up-form', {
+    return res.render('sign-up', {
       messages: errors.array().map((error) => error.msg),
       user: req.body,
     });
   }
 
   try {
-    const { firstName, lastName, username, password, isExclusive, isAdmin } =
-      req.body;
+    const { firstName, lastName, username, password } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const result = await pool.query(
-      `INSERT INTO clubhouse_member (first_name, last_name, username, password, is_exclusive, is_admin)
-            VALUES($1, $2, $3, $4, $5, $6) ON CONFLICT(username) DO NOTHING RETURNING *`,
-      [
+    const result = createUser(
+      new User({
         firstName,
         lastName,
         username,
-        hashedPassword,
-        isExclusive || false,
-        isAdmin || false,
-      ]
+        password: hashedPassword,
+        isExclusive: false,
+        isAdmin: false,
+      })
     );
 
-    if (!result.rows.length) {
-      res.render('sign-up-form', { messages: ['Existing username entered'] });
+    if (!result) {
+      res.render('sign-up', { messages: ['Existing username entered'] });
     } else {
       const user = new User({
         ...result.rows.at(0),
@@ -114,4 +115,15 @@ async function signUp(req, res, next) {
   }
 }
 
-module.exports = { signUp, validateSignUp };
+async function verifyCode(req, res, next) {
+  const code = req.body.code;
+
+  if (code === process.env.EXCLUSIVE_CODE)
+    updateExclusiveStatus({ ...res.locals.user, isExclusive: true });
+  else if (code === process.env.ADMIN_CODE)
+    updateAdminStatus({ ...res.locals.user, isAdmin: true });
+
+  res.redirect('/join-the-club');
+}
+
+module.exports = { signUp, validateSignUp, verifyCode };

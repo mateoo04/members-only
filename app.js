@@ -1,12 +1,14 @@
 const path = require('node:path');
 const express = require('express');
 const session = require('express-session');
+const pgSession = require('connect-pg-simple')(session);
 require('./config/passport');
 require('dotenv').config();
 
 const indexRouter = require('./routes/indexRouter');
 const authRouter = require('./routes/authRouter');
 const passport = require('passport');
+const { pool } = require('./config/db');
 
 const app = express();
 app.set('views', path.join(__dirname, 'views'));
@@ -16,10 +18,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
+    store: new pgSession({ pool, tableName: 'session' }),
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false },
+    cookie: { secure: process.env.NODE_ENV === 'production' },
   })
 );
 

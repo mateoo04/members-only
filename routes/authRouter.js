@@ -2,7 +2,7 @@ const { Router } = require('express');
 const { body, validationResult } = require('express-validator');
 const passport = require('passport');
 
-const { signUp, validateSignUp } = require('../controllers/authController');
+const { signUp, validateSignUp } = require('../controllers/userController');
 
 const authRouter = Router();
 
@@ -26,7 +26,7 @@ authRouter.post(
     const errors = validationResult(req);
 
     if (!errors.isEmpty())
-      return res.render('log-in-form', {
+      return res.render('log-in', {
         messages: errors.array().map((error) => error.msg),
       });
 
@@ -38,5 +38,14 @@ authRouter.post(
     failureMessage: 'Invalid username or password entered',
   })
 );
+
+authRouter.post('/log-out', (req, res) => {
+  req.logout((err) => {
+    if (err) return res.status(500).json({ message: 'Logout failed' });
+    req.session.destroy();
+    res.clearCookie('connect.sid');
+    res.redirect('/log-in');
+  });
+});
 
 module.exports = authRouter;
