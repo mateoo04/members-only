@@ -3,14 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Members Only - Error</title>
+    <title>Members Only</title>
     <link rel="icon" type="image/x-icon" href="/icons/main-icon.svg" />
   </head>
-  <body>
+  <body class="d-flex flex-column">
     <%- include('./partials/header') %>
-    <main>
-      <a href="/">Home</a>
-      <h2><%= message %></h2>
+    <main class="d-flex h-100 align-items-center justify-content-center">
+      <h2>Oops, there was an error. <a href="/">Click here to go home</a></h2>
     </main>
     <%- include('./partials/footer')%>
   </body>

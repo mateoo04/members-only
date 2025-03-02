@@ -27,9 +27,11 @@ app.use(
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: process.env.NODE_ENV === 'production' },
+    cookie: { secure: process.env.NODE_ENV === 'production', httpOnly: true },
   })
 );
+
+app.set('trust proxy', true);
 
 app.use(passport.session());
 

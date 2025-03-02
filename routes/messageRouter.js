@@ -14,8 +14,8 @@ messageRouter.get('/new', isAuth, (req, res, next) =>
   res.render('new-message')
 );
 
-messageRouter.delete('/:id/delete', messageDelete);
+messageRouter.delete('/:id/delete', isAuth, messageDelete);
 
-messageRouter.post('/save', messagePost);
+messageRouter.post('/save', isAuth, messagePost);
 
 module.exports = messageRouter;

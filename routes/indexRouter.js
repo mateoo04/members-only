@@ -15,7 +15,7 @@ indexRouter.get('/join-the-club', isAuth, (req, res) =>
   res.render('code-verification')
 );
 
-indexRouter.post('/verify-secret-code', verifyCode);
+indexRouter.post('/verify-secret-code', isAuth, verifyCode);
 
 indexRouter.use('/', (req, res, next) => res.redirect('/message/'));
 
