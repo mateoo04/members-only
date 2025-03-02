@@ -22,9 +22,10 @@
           aria-expanded="false"
         >
           <img class="person-icon" src="/icons/person-circle.svg" alt="" />
-          <%= user.username %>
         </button>
         <ul class="dropdown-menu">
+          <li class="logged-in-as-item">Logged in as <%= user.username%></li>
+          <li><hr class="dropdown-divider" /></li>
           <li>
             <a class="dropdown-item" href="/join-the-club">Join the club</a>
           </li>
