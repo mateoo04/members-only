@@ -4,48 +4,61 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Members Only</title>
+    <link rel="stylesheet" href="/styles/styles.css" />
+
     <script>
       function confirmDeletion() {
         return confirm('Are you sure you want to delete this message?');
       }
     </script>
   </head>
-  <body>
-    <main>
-      <h2>
-        <%- locals.user ? `Welcome, ${user.firstName} ${user.lastName}!` :
-        'Welcome!' %>
-      </h2>
-      <a href="/join-the-club">JOIN THE CLUB</a>
-      <form action="/log-out" method="post">
-        <button type="submit">LOG OUT</button>
-      </form>
-      <div>
-        <% if(typeof messages !== 'undefined' && messages?.length){
-        messages.forEach(message => {%>
-        <div>
-          <h3><%= message.title%></h3>
-          <p>
-            <%- user?.isExclusive ? message.member.username : 'Anonymous' %>
-          </p>
-          <%if(user?.isExclusive){%>
-          <p><%= message.time %></p>
-          <%}%>
-          <p><%= message.content %></p>
-          <% if(user?.isAdmin){%>
-          <form
-            action="/message/<%=message.id%>/delete?_method=DELETE"
-            method="post"
-            onsubmit="return confirmDeletion()"
-          >
-            <input type="hidden" name="_method" value="DELETE" />
-            <button type="submit">Delete</button>
-          </form>
-          <%}%>
-          <hr />
+  <body class="d-flex flex-column">
+    <%- include('./partials/header') %>
+    <main class="main-content">
+      <div class="d-flex h-100">
+        <div class="container flex-column d-flex gap-3 message-container">
+          <% if(typeof messages !== 'undefined' && messages?.length){
+          messages.forEach(message => {%>
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title"><%= message.title%></h3>
+              <p class="card-text"><%= message.content %></p>
+              <div class="message-details d-flex align-items-center">
+                <p>
+                  <%- user?.isExclusive ? message.member.username : 'Anonymous'
+                  %>
+                </p>
+                <div
+                  class="d-flex justify-content-end align-items-center time-delete-button-container gap-2"
+                >
+                  <%if(user?.isExclusive){%>
+                  <p><%= message.time %></p>
+                  <%}%> <% if(user?.isAdmin){%>
+                  <form
+                    action="/message/<%=message.id%>/delete?_method=DELETE"
+                    method="post"
+                    onsubmit="return confirmDeletion()"
+                  >
+                    <input type="hidden" name="_method" value="DELETE" />
+                    <button type="submit">
+                      <img src="/icons/trash.svg" alt="" />
+                    </button>
+                  </form>
+                  <%}%>
+                </div>
+              </div>
+            </div>
+          </div>
+          <%});}%>
         </div>
-        <%});}%>
       </div>
     </main>
+    <button
+      class="create-message-button"
+      onclick="window.location.href='/message/new'"
+    >
+      +
+    </button>
+    <%- include('./partials/footer')%>
   </body>
 </html>

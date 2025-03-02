@@ -5,18 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Members Only</title>
   </head>
-  <body>
-    <main>
-      <h2>New message</h2>
-      <form action="/message/save" method="post">
-        <label for="title"
-          >Title <input type="text" id="title" name="title" /> </label
-        >Message
-        <label for="content">
-          <textarea name="content" id="content"></textarea>
-        </label>
-        <input type="submit" value="SAVE" />
-      </form>
+  <body class="d-flex flex-column">
+    <%- include('./partials/header') %>
+    <main class="main-content">
+      <div class="d-flex h-100">
+        <div class="container flex-column d-flex gap-3 message-container">
+          <h2>New message</h2>
+          <form action="/message/save" method="post" class="flex-column d-flex">
+            <label for="title" class="mb-3"
+              >Title
+              <input
+                type="text"
+                id="title"
+                name="title"
+                class="form-control"
+              /> </label
+            >Message
+            <label for="content" class="mb-3">
+              <textarea
+                name="content"
+                id="content"
+                class="form-control"
+                rows="6"
+              ></textarea>
+            </label>
+            <input type="submit" value="SAVE" class="btn" />
+          </form>
+        </div>
+      </div>
     </main>
+    <%- include('./partials/footer')%>
   </body>
 </html>

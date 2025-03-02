@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Members Only</title>
   </head>
-  <body>
-    <main>
+  <body class="d-flex flex-column">
+    <%- include('./partials/header') %>
+    <main class="main-content">
+      <div class="d-flex h-100">
+        <div class="container flex-column d-flex gap-3 message-container">
       <p>
         <%if(user?.isAdmin){%>
           <p>You are an admin.</p>
@@ -14,13 +17,23 @@
           <p>You are an exclusive member.</p>
           <% } %>
       </p>
-      <form action="/verify-secret-code" method="post">
+      <form action="/verify-secret-code" method="post" class="d-flex flex-column">
         <legend>
           Enter the secret code to become an exclusive member or an admin.
         </legend>
-        <input type="text" id="code" name="code" />
-        <input type="submit" value="VERIFY" />
+        <input type="text" id="code" name="code"
+        class="form-control mb-3" />
+        <input type="submit" value="VERIFY" class="btn" />
       </form>
+    </div>
+  </div>
     </main>
+    <button
+      class="create-message-button"
+      onclick="window.location.href='/message/new'"
+    >
+      +
+    </button>
+    <%- include('./partials/footer')%>
   </body>
 </html>

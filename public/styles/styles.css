@@ -1,0 +1,102 @@
+:root {
+  --primary-color: #a52422;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+header {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 36px;
+}
+
+header h1 {
+  font-size: 1.6em;
+}
+
+.person-icon {
+  margin-right: 6px;
+  height: 24px;
+  width: auto;
+}
+
+.nav-dropdown-toggle {
+  color: #fff;
+  border: none;
+}
+
+.log-out-button {
+  width: 100%;
+  padding: 0;
+}
+
+.main-content,
+.time-delete-button-container {
+  flex: 1;
+}
+
+.btn,
+.btn:hover,
+.btn:active,
+.btn:focus {
+  background-color: var(--primary-color) !important;
+  border: none;
+  color: #fff;
+}
+
+main button:hover,
+main input[type='submit']:hover,
+main a:hover,
+footer a:hover,
+.create-message-button:hover {
+  opacity: 0.8;
+}
+
+main a,
+footer a {
+  color: var(--primary-color);
+}
+
+.message-container {
+  max-width: 700px;
+}
+
+.message-container button {
+  background-color: transparent;
+  border: none;
+}
+
+.message-container button img {
+  width: 24px;
+  height: 24px;
+}
+
+.message-details p {
+  margin: 0;
+  color: #808080;
+}
+
+.create-message-button {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  background-color: var(--primary-color);
+  width: 50px;
+  height: 50px;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 2em;
+  border: 0;
+  box-sizing: border-box;
+}
+
+legend {
+  font-size: 1.2em;
+  margin-bottom: 1em;
+}
